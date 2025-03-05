@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        table { margin: 20px auto; border-collapse: collapse; width: 50%; }
+        table, th, td { border: 1px solid black; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Weather App</h1>
+    <form method="POST" action="/">
+        <input type="text" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
+    </form>
+    
+    {% if weather_data %}
+        {% if 'error' in weather_data %}
+            <p style="color: red;">{{ weather_data.error }}</p>
+        {% else %}
+            <table>
+                <tr><th>Field</th><th>Value</th></tr>
+                <tr><td><strong>City</strong></td><td>{{ weather_data.city }}</td></tr>
+                <tr><td><strong>Temperature</strong></td><td>{{ weather_data.temperature }}°C</td></tr>
+                <tr><td><strong>Humidity</strong></td><td>{{ weather_data.humidity }}%</td></tr>
+                <tr><td><strong>Description</strong></td><td>{{ weather_data.description }}</td></tr>
+            </table>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
