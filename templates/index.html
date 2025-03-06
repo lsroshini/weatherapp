@@ -13,22 +13,48 @@
 </head>
 <body>
     <h1>Weather App</h1>
-    <form method="POST" action="/">
-        <input type="text" name="city" placeholder="Enter city name" required>
+    
+    <form method="POST">
+        <label for="city">Enter City:</label>
+        <input type="text" id="city" name="city">
         <button type="submit">Get Weather</button>
     </form>
+
     
+    <p></p>
     {% if weather_data %}
-        {% if 'error' in weather_data %}
-            <p style="color: red;">{{ weather_data.error }}</p>
+    {% if 'error' in weather_data %}
+        <p style="color: red;">{{ weather_data.error }}</p>
+    {% else %}
+        <table>
+            <tr><th>Field</th><th>Value</th></tr>
+            <tr><td><strong>City</strong></td><td>{{ weather_data.city }}</td></tr>
+            <tr><td><strong>Temperature</strong></td><td>{{ weather_data.temperature }}°C</td></tr>
+            <tr><td><strong>Humidity</strong></td><td>{{ weather_data.humidity }}%</td></tr>
+            <tr><td><strong>Description</strong></td><td>{{ weather_data.description }}</td></tr>
+        </table>
+    {% endif %}
+{% endif %}
+
+<p></p>
+    {% if forecast_data %}
+        <h2>5-Day Forecast</h2>
+        <ul>
+            {% for forecast in forecast_data %}
+                <li>{{ forecast.datetime }} - {{ forecast.temperature }}°C, {{ forecast.description }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <p></p>
+    {% if location_weather %}
+        <h2>Your Location's Weather</h2>
+        {% if 'error' in location_weather %}
+            <p>Error: {{ location_weather.error }}</p>
         {% else %}
-            <table>
-                <tr><th>Field</th><th>Value</th></tr>
-                <tr><td><strong>City</strong></td><td>{{ weather_data.city }}</td></tr>
-                <tr><td><strong>Temperature</strong></td><td>{{ weather_data.temperature }}°C</td></tr>
-                <tr><td><strong>Humidity</strong></td><td>{{ weather_data.humidity }}%</td></tr>
-                <tr><td><strong>Description</strong></td><td>{{ weather_data.description }}</td></tr>
-            </table>
+            <p>City: {{ location_weather.city }}</p>
+            <p>Temperature: {{ location_weather.temperature }}°C</p>
+            <p>Humidity: {{ location_weather.humidity }}%</p>
+            <p>Description: {{ location_weather.description }}</p>
         {% endif %}
     {% endif %}
 </body>
